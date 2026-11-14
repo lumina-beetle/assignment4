@@ -1,3 +1,7 @@
+/*
+ * TCSS 305 - Road Rage
+ */
+
 package tests;
 
 import model.*;
@@ -10,16 +14,30 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for the {@link Truck} class, covering collision survival, image file names,
+ * the terrain and lights a truck can pass, and direction choice.
+ *
+ * @author Your Name Here
+ * @version Date or Version Here
+ */
 class TruckTest
 {
+    /** The truck under test, recreated before each test. */
     private Truck myTruckSubject;
 
+    /**
+     * Creates a fresh truck at (2, 2) facing north before each test.
+     */
     @BeforeEach
     void setUp()
     {
         myTruckSubject = new Truck(2, 2, Direction.NORTH);
     }
 
+    /**
+     * Tests that a truck stays alive after colliding with a taxi.
+     */
     @Test
     void truckLivesOnCollisionTest()
     {
@@ -29,6 +47,11 @@ class TruckTest
         assertTrue(myTruckSubject.isAlive());
     }
 
+    /**
+     * Tests that a living truck uses the "truck.gif" image and a dead truck uses the
+     * "truck_dead.gif" image. A collision with an immovable rod is used to kill the truck
+     * for the purposes of the test.
+     */
     @Test
     void imageTest()
     {
@@ -40,6 +63,9 @@ class TruckTest
         assertEquals("truck_dead.gif", deadTruckSubject.getImageFileName());
     }
 
+    /**
+     * Tests that a truck can pass streets and crosswalks when the light is green.
+     */
     @Test
     void canPassThroughValidTerrainTest()
     {
@@ -51,6 +77,9 @@ class TruckTest
         }
     }
 
+    /**
+     * Tests that a truck can pass a street under every light state.
+     */
     @Test
     void canPassThroughStandardLightsTest()
     {
@@ -62,6 +91,9 @@ class TruckTest
         }
     }
 
+    /**
+     * Tests that a truck stops for a red crosswalk light but passes a yellow or green one.
+     */
     @Test
     void stopsAtCrossWalkLightTest()
     {
@@ -70,12 +102,10 @@ class TruckTest
         assertTrue(myTruckSubject.canPass(Terrain.CROSSWALK, Light.GREEN));
     }
 
-    @Test
-    void chooseRandomDirectionTest()
-    {
-
-    }
-
+    /**
+     * Tests that a truck turns around when straight, left, and right are all grass and
+     * only the street behind it is passable.
+     */
     @Test
     void chooseBlockedDirectionTest()
     {
